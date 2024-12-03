@@ -1,0 +1,11 @@
+
+
+train: ../archive/data/images
+val: ../archive/data/images
+test: ../archive/data/images
+
+# number of classes
+nc: 1
+
+# class names
+names: ['vehicle']
