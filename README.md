@@ -3,13 +3,9 @@ Repository for HandsOn for the LACORO event
 
 
 # Weights for the trained network
-Trained network for Ellipse detection:
+Trained network for Ellipse detection and vehicle detection:
 
-[`yolov7-w6.pt`](https://drive.google.com/drive/folders/1a0SeBm_Z5mx6LrXm_Mq7Eu_CIDf3JxwJ)
-
-Trained network for vehicle detection:
-
-[`yolov7-w6-pose.pt`](https://drive.google.com/drive/folders/1a0SeBm_Z5mx6LrXm_Mq7Eu_CIDf3JxwJ)
+[`weights.pt`](https://drive.google.com/file/d/17L1apJwf6TWzn9Kt1YmxMdV-FPd2Hh0I/view?usp=sharing)
 
 # Dataset for vehicle
 Car Object detection dataset: 

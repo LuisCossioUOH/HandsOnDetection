@@ -9,7 +9,6 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
@@ -79,8 +78,6 @@ class training_session:
         # Model
         pretrained = weights.endswith('.pt')
         if pretrained:
-            with torch_distributed_zero_first(-1):
-                attempt_download(weights)  # download if not found locally
             ckpt = torch.load(weights, map_location=device)  # load checkpoint
             self.model = Model(opt.cfg or ckpt['model'].yaml, ch=3, nc=self.nc, anchors=hyp.get('anchors')).to(
                 device)  # create
@@ -225,7 +222,7 @@ class training_session:
         self.imgsz = imgsz
         self.imgsz_test = imgsz
         if not opt.noautoanchor:
-            check_anchors(dataset_train, model=self.model, thr=hyp['anchor_t'], imgsz=self.imgsz)
+            check_anchors(dataset_train, model=self.model, thr=self.hyp['anchor_t'], imgsz=self.imgsz)
 
         self.nb = len(dataloader_train)  # number of batches
         self.loader_train = dataloader_train
@@ -233,14 +230,13 @@ class training_session:
         self.loader_test = dataloader_test
 
     def setup_training(self):
-
         # Model parameters
-        hyp['box'] *= 3. / self.number_layers  # scale to layers
-        hyp['cls'] *= self.nc / 80. * 3. / self.number_layers  # scale to classes and layers
-        hyp['obj'] *= (self.imgsz / 640) ** 2 * 3. / self.number_layers  # scale to image size and layers
-        hyp['label_smoothing'] = opt.label_smoothing
+        self.hyp['box'] *= 3. / self.number_layers  # scale to layers
+        self.hyp['cls'] *= self.nc / 80. * 3. / self.number_layers  # scale to classes and layers
+        self.hyp['obj'] *= (self.imgsz / 640) ** 2 * 3. / self.number_layers  # scale to image size and layers
+        self.hyp['label_smoothing'] = self.opt.label_smoothing
         self.model.nc = self.nc  # attach number of classes to model
-        self.model.hyp = hyp  # attach hyperparameters to model
+        self.model.hyp = self.hyp  # attach hyperparameters to model
         self.model.gr = 1.0  # iou loss ratio (obj_loss = 1.0 or iou)
         self.model.class_weights = labels_to_class_weights(self.dataset_train.labels, self.nc).to(
             self.device) * self.nc  # attach class weights
@@ -248,7 +244,7 @@ class training_session:
 
         # Start training
         self.t0 = time.time()
-        self.nw = max(round(hyp['warmup_epochs'] * self.nb),1000)  # number of warmup iterations, max(3 epochs, 1k iterations)
+        self.nw = max(round(self.hyp['warmup_epochs'] * self.nb),1000)  # number of warmup iterations, max(3 epochs, 1k iterations)
 
         # Resume
         self.scheduler.last_epoch = self.start_epoch - 1  # do not move
