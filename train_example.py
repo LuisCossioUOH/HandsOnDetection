@@ -234,7 +234,7 @@ class training_session:
         self.hyp['box'] *= 3. / self.number_layers  # scale to layers
         self.hyp['cls'] *= self.nc / 80. * 3. / self.number_layers  # scale to classes and layers
         self.hyp['obj'] *= (self.imgsz / 640) ** 2 * 3. / self.number_layers  # scale to image size and layers
-        self.hyp['label_smoothing'] = self.opt.label_smoothing
+        self.hyp['label_smoothing'] = opt.label_smoothing
         self.model.nc = self.nc  # attach number of classes to model
         self.model.hyp = self.hyp  # attach hyperparameters to model
         self.model.gr = 1.0  # iou loss ratio (obj_loss = 1.0 or iou)
@@ -536,8 +536,9 @@ class EllipseGenerator:
         return torch.from_numpy(img), labels_out, 'image_{:d}.jpg'.format(idx), shapes
 
 
-def create_ellipse_dataloaders(img_size, batch_size, max_stride=64, workers=8, n_images=200, n_ellipses=3):
-    dataset = EllipseGenerator(img_size, n_ellipses, n_images)
+def create_ellipse_dataloaders(img_size, batch_size, max_stride=64, workers=8, n_images=200, n_ellipses=3,
+                               n_classes=3):
+    dataset = EllipseGenerator(img_size, n_ellipses, n_images,n_colors=n_classes)
 
     batch_size = min(batch_size, len(dataset))
     sampler_train = torch.utils.data.RandomSampler(dataset)

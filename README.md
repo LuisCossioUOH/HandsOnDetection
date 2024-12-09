@@ -1,5 +1,5 @@
 # HandsOnDetection
-Repository for HandsOn for the LACORO event
+Repository for detections Hands-on for the LACORO event 
 
 
 # Weights for the trained network
