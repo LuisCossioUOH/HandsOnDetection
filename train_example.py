@@ -269,7 +269,7 @@ class training_session:
             if 'momentum' in x:
                 x['momentum'] = np.interp(ni, xi, [hyp['warmup_momentum'], hyp['momentum']])
 
-    def train(self, opt):
+    def train(self, opt, device):
         results = (0, 0, 0, 0, 0, 0, 0)  # P, R, mAP@.5, mAP@.5-.95, val_loss(box, obj, cls)
         lf = one_cycle(1, self.hyp['lrf'], self.epochs)  # cosine 1->hyp['lrf']
 
@@ -573,7 +573,7 @@ def main(hyp, opt, device):
                                                                                         max_stride)
     ts.setup_dataset(opt, dataset_train, dataloader_train, dataloader_test, imgsz)
     ts.setup_training(opt)
-    ts.train(opt)
+    ts.train(opt,device)
 
 
 if __name__ == '__main__':
