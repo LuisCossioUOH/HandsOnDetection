@@ -229,7 +229,7 @@ class training_session:
         self.dataset_train = dataset_train
         self.loader_test = dataloader_test
 
-    def setup_training(self):
+    def setup_training(self,opt):
         # Model parameters
         self.hyp['box'] *= 3. / self.number_layers  # scale to layers
         self.hyp['cls'] *= self.nc / 80. * 3. / self.number_layers  # scale to classes and layers
@@ -572,7 +572,7 @@ def main(hyp, opt, device):
         dataset_train, dataloader_train, dataloader_test, imgsz = get_files_datasets(hyp, opt, ts.data_dict,
                                                                                         max_stride)
     ts.setup_dataset(opt, dataset_train, dataloader_train, dataloader_test, imgsz)
-    ts.setup_training()
+    ts.setup_training(opt)
     ts.train(opt)
 
 
