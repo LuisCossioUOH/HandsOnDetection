@@ -265,9 +265,9 @@ class training_session:
         for j, x in enumerate(self.optimizer.param_groups):
             # bias lr falls from 0.1 to lr0, all other lrs rise from 0.0 to lr0
             x['lr'] = np.interp(ni, xi,
-                                [hyp['warmup_bias_lr'] if j == 2 else 0.0, x['initial_lr'] * lamba_function(epoch)])
+                                [self.hyp['warmup_bias_lr'] if j == 2 else 0.0, x['initial_lr'] * lamba_function(epoch)])
             if 'momentum' in x:
-                x['momentum'] = np.interp(ni, xi, [hyp['warmup_momentum'], hyp['momentum']])
+                x['momentum'] = np.interp(ni, xi, [self.hyp['warmup_momentum'], self.hyp['momentum']])
 
     def train(self, opt, device):
         results = (0, 0, 0, 0, 0, 0, 0)  # P, R, mAP@.5, mAP@.5-.95, val_loss(box, obj, cls)
