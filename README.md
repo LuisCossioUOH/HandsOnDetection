@@ -10,7 +10,7 @@ Trained network for Ellipse detection and vehicle detection:
 # Dataset for vehicle
 Car Object detection dataset: 
 
-[car-object-detection](https://www.kaggle.com/code/balraj98/yolo-v5-car-object-detection/input)
+[car-object-detection](https://www.kaggle.com/datasets/sshikamaru/car-object-detection)
 
 ## Acknowledgements
 
