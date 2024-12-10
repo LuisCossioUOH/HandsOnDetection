@@ -10,7 +10,7 @@ Trained network for Ellipse detection and vehicle detection:
 # Dataset for vehicle
 Car Object detection dataset: 
 
-[car-object-detection](https://www.kaggle.com/datasets/sshikamaru/car-object-detection)
+[car-object-detection](https://drive.google.com/drive/folders/1Xkak8cDZB2WGyJlcsinW2XZ7b7UKOZcN?usp=sharing)
 
 ## Acknowledgements
 
